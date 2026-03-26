@@ -24,11 +24,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.nile.pantelis.tic_tac_toe.R
+import com.nile.pantelis.tic_tac_toe.domain.TileStates
 
 @Composable
-fun FixedGrid() {
+fun FixedGrid(viewModel: TileViewModel) {
 
-   val viewModel: TileViewModel = TileViewModel()
     BoxWithConstraints(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -47,26 +47,24 @@ fun FixedGrid() {
                         .height(gridHeight/3)
 //                    .height(270.dp)
                         .border(1.dp, Color.Black)
-                        .clickable(onClick = { viewModel.getTileState(index)  })
-                        .background(Color.Cyan),
+                        .clickable(onClick = { viewModel.getTileState(index)  }),
                     contentAlignment = Alignment.Center
                 ) {
 //                    var state: Boolean = false
-                    if (viewModel.tileState[index]) {
-                        Icon(painterResource(id = R.drawable.circle), contentDescription = "Circle")
-                    }
-                    else {
-                        Icon(painterResource(id = R.drawable.cross), contentDescription = "Cross")
+                    when{
+                        viewModel.tileState[index] == TileStates.Blank -> {}
+
+                        viewModel.tileState[index] == TileStates.Cross -> {
+                            Icon(painterResource(R.drawable.cross), contentDescription = "Cross")
+                        }
+
+                        viewModel.tileState[index] == TileStates.Circle -> {
+                            Icon(painterResource(R.drawable.circle), contentDescription = "Circle")
+                        }
                     }
 
                 }
             }
         }
     }
-}
-
-@Composable
-@Preview
-fun FixedGridPreview(){
-    FixedGrid()
 }
