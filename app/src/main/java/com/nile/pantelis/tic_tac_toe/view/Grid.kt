@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.*
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -37,7 +38,7 @@ fun FixedGrid(viewModel: TileViewModel) {
         LazyVerticalGrid(
             columns = GridCells.Fixed(3),
             modifier = Modifier.fillMaxSize()
-                .background(Color.Gray),
+                .background(Color.Transparent),
 
             ) {
             items(9) { index ->
@@ -48,18 +49,26 @@ fun FixedGrid(viewModel: TileViewModel) {
 //                    .height(270.dp)
                         .border(1.dp, Color.Black)
                         .clickable(onClick = { viewModel.getTileState(index)  }),
-                    contentAlignment = Alignment.Center
+                    contentAlignment = Alignment.Center,
                 ) {
 //                    var state: Boolean = false
                     when{
                         viewModel.tileState[index] == TileStates.Blank -> {}
 
                         viewModel.tileState[index] == TileStates.Cross -> {
-                            Icon(painterResource(R.drawable.cross), contentDescription = "Cross")
+                            Icon(
+                                painterResource(R.drawable.cross),
+                                contentDescription = "Cross",
+                                modifier = Modifier.size(64.dp)
+                            )
                         }
 
                         viewModel.tileState[index] == TileStates.Circle -> {
-                            Icon(painterResource(R.drawable.circle), contentDescription = "Circle")
+                            Icon(
+                                painterResource(R.drawable.circle),
+                                contentDescription = "Circle",
+                                modifier = Modifier.size(64.dp)
+                                )
                         }
                     }
 
