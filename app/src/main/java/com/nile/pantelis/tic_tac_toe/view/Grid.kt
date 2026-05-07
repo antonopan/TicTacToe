@@ -1,13 +1,16 @@
 package com.nile.pantelis.tic_tac_toe.view
 
+import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.*
 import androidx.compose.material3.Icon
@@ -37,8 +40,10 @@ fun FixedGrid(viewModel: TileViewModel) {
 
         LazyVerticalGrid(
             columns = GridCells.Fixed(3),
-            modifier = Modifier.fillMaxSize()
-                .background(Color.Transparent),
+            modifier = Modifier.fillMaxSize().padding(16.dp)
+                .background(Color.Black),
+            horizontalArrangement = Arrangement.spacedBy(4.dp),
+            verticalArrangement = Arrangement.spacedBy(4.dp)
 
             ) {
             items(9) { index ->
@@ -46,8 +51,9 @@ fun FixedGrid(viewModel: TileViewModel) {
                     Modifier
                         .fillMaxWidth()
                         .height(gridHeight/3)
+                        .background(Color.White)
 //                    .height(270.dp)
-                        .border(1.dp, Color.Black)
+                        .border(4.dp, Color.Transparent)
                         .clickable(onClick = { viewModel.getTileState(index)  }),
                     contentAlignment = Alignment.Center,
                 ) {
@@ -56,19 +62,11 @@ fun FixedGrid(viewModel: TileViewModel) {
                         viewModel.tileState[index] == TileStates.Blank -> {}
 
                         viewModel.tileState[index] == TileStates.Cross -> {
-                            Icon(
-                                painterResource(R.drawable.cross),
-                                contentDescription = "Cross",
-                                modifier = Modifier.size(64.dp)
-                            )
+                            Symbols(infiniteTransition = rememberInfiniteTransition(), turn = true)
                         }
 
                         viewModel.tileState[index] == TileStates.Circle -> {
-                            Icon(
-                                painterResource(R.drawable.circle),
-                                contentDescription = "Circle",
-                                modifier = Modifier.size(64.dp)
-                                )
+                            Symbols(infiniteTransition = rememberInfiniteTransition(), turn = false)
                         }
                     }
 

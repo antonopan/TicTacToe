@@ -13,6 +13,7 @@ import androidx.compose.ui.text.style.TextAlign
 fun WinnerPopup(
     onConfirmation: () -> Unit,
     dialogText: String,
+    onDismissRequest: () -> Unit
 ) {
     AlertDialog(
         title = {
@@ -25,7 +26,7 @@ fun WinnerPopup(
                 modifier = Modifier.fillMaxWidth()
             )
         },
-        onDismissRequest = {},
+        onDismissRequest = onDismissRequest,
         confirmButton = {
             Button(
                 onClick = {

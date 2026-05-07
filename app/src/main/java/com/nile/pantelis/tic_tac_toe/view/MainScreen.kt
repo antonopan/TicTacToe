@@ -39,7 +39,8 @@ fun MainScreen(modifier: Modifier) {
                 Text(
                     viewModel.displayPlayerTurn,
                     fontSize = 32.sp,
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
+                    color = Color.Black
                 )
             }
             Box(
@@ -50,7 +51,8 @@ fun MainScreen(modifier: Modifier) {
             ) {
                 Text(
                     text = "Restart",
-                    fontSize = 16.sp
+                    fontSize = 16.sp,
+                    color = Color.Black
                 )
             }
         }
@@ -62,11 +64,14 @@ fun MainScreen(modifier: Modifier) {
             }
         }
     }
-    if (viewModel.won) {
+    if (viewModel.won.value) {
         WinnerPopup(onConfirmation = {
             viewModel.clearTiles()
-            viewModel.won = false
-                                     }, dialogText = viewModel.displayPlayerTurn)
+//            viewModel.won = false
+                                     },
+            dialogText = viewModel.displayWinner,
+            onDismissRequest = {}
+        )
     }
 }
 @Preview
