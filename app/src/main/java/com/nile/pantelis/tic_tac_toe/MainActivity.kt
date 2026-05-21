@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import com.nile.pantelis.tic_tac_toe.ui.theme.BoardColor
 import com.nile.pantelis.tic_tac_toe.ui.theme.TicTacToeTheme
 import com.nile.pantelis.tic_tac_toe.view.MainScreen
 
@@ -22,7 +23,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             TicTacToeTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Box(modifier = Modifier.fillMaxSize().background(Color.White)
+                    Box(modifier = Modifier.fillMaxSize().background(BoardColor)
                     ){
                         MainScreen(modifier = Modifier
                         .padding(innerPadding)

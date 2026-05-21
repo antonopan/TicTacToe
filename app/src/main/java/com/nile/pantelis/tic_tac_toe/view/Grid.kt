@@ -29,19 +29,21 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.nile.pantelis.tic_tac_toe.R
 import com.nile.pantelis.tic_tac_toe.domain.TileStates
+import com.nile.pantelis.tic_tac_toe.ui.theme.BoardColor
+import com.nile.pantelis.tic_tac_toe.ui.theme.GridColor
 
 @Composable
 fun FixedGrid(viewModel: TileViewModel) {
 
     BoxWithConstraints(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize().padding(vertical = 40.dp, horizontal = 10.dp)
     ) {
         val gridHeight = maxHeight
 
         LazyVerticalGrid(
             columns = GridCells.Fixed(3),
-            modifier = Modifier.fillMaxSize().padding(16.dp)
-                .background(Color.Black),
+            modifier = Modifier.fillMaxSize()
+                .background(GridColor),
             horizontalArrangement = Arrangement.spacedBy(4.dp),
             verticalArrangement = Arrangement.spacedBy(4.dp)
 
@@ -51,10 +53,14 @@ fun FixedGrid(viewModel: TileViewModel) {
                     Modifier
                         .fillMaxWidth()
                         .height(gridHeight/3)
-                        .background(Color.White)
+                        .background(BoardColor)
 //                    .height(270.dp)
                         .border(4.dp, Color.Transparent)
-                        .clickable(onClick = { viewModel.getTileState(index)  }),
+                        .clickable(
+                            onClick = { viewModel.getTileState(index)  },
+                            indication = null,
+                            interactionSource = null
+                            ),
                     contentAlignment = Alignment.Center,
                 ) {
 //                    var state: Boolean = false

@@ -15,7 +15,9 @@ class TileViewModel: ViewModel() {
         TileStates.Blank, TileStates.Blank, TileStates.Blank
     )
     private var playerState = mutableStateOf(true)
-    var won = mutableStateOf(false)
+
+    private var winner = mutableStateOf("")
+    var won = mutableStateOf(3)
 
 //    val displayPlayerTurn: String
 //        get() = if (playerState) {
@@ -52,8 +54,18 @@ class TileViewModel: ViewModel() {
         }
 
         val win = checkWinner(tileState)
-        if(win) {
-            won.value = true
+        if(win == true) {
+            won.value = 1
+        }
+        else if(win == false) {
+            won.value =2
+        }
+
+        val isValueMissing = tileState.none { tile ->
+            tile == TileStates.Blank
+        }
+        if (isValueMissing) {
+            winner.value = "It's a tie!"
         }
 
     }
@@ -63,7 +75,7 @@ class TileViewModel: ViewModel() {
             tileState[i] = TileStates.Blank
             Log.d("RESTART", displayPlayerTurn)
         }
-        won.value = false
+        won.value = 3
     }
 
 }

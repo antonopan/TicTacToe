@@ -1,5 +1,7 @@
 package com.nile.pantelis.tic_tac_toe.view
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.InfiniteTransition
 import androidx.compose.animation.core.RepeatMode
@@ -22,12 +24,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.dropShadow
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asComposeRenderEffect
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.nile.pantelis.tic_tac_toe.R
 
+@RequiresApi(Build.VERSION_CODES.S)
 @Composable
 fun Symbols(infiniteTransition: InfiniteTransition, turn: Boolean) {
 
@@ -46,28 +50,12 @@ fun Symbols(infiniteTransition: InfiniteTransition, turn: Boolean) {
         // 1. Μετάβαση στο target value (1.2f)
         pulsate.animateTo(
             targetValue = 2.7f,
-            animationSpec = tween(durationMillis = 500) // Μισός χρόνος για το "ανέβασμα"
+            animationSpec = tween(durationMillis = 200) // Μισός χρόνος για το "ανέβασμα"
         )
         // 2. Επιστροφή στην αρχική τιμή (0.8f)
         pulsate.animateTo(
             targetValue = 1.7f,
-            animationSpec = tween(durationMillis = 200) // Μισός χρόνος για το "κατέβασμα"
-        )
-    }
-
-    val alpha = remember { Animatable(0.3f) }
-
-    // Το LaunchedEffect εκτελείται αυτόματα μόλις εμφανιστεί το Component
-    LaunchedEffect(Unit) {
-        // 1. Πηγαίνει αργά στο opaque (1.5 δευτερόλεπτο)
-        alpha.animateTo(
-            targetValue = 1f,
-            animationSpec = tween(durationMillis = 150)
-        )
-        // 2. Επιστρέφει αμέσως γρήγορα στο διαφανές (0.2 δευτερόλεπτα)
-        alpha.animateTo(
-            targetValue = 0.0f,
-            animationSpec = tween(durationMillis = 200)
+            animationSpec = tween(durationMillis = 100) // Μισός χρόνος για το "κατέβασμα"
         )
     }
 
@@ -77,8 +65,6 @@ fun Symbols(infiniteTransition: InfiniteTransition, turn: Boolean) {
             contentAlignment = Alignment.Center,
             modifier = Modifier
                 .fillMaxSize()
-                .graphicsLayer { this.alpha = alpha.value } // Αποδοτική σχεδίαση
-                .background(Color.Black)
         ) {
             Icon(
                 painter = painterResource(R.drawable.cross),
@@ -89,28 +75,56 @@ fun Symbols(infiniteTransition: InfiniteTransition, turn: Boolean) {
                         scaleX = pulsate.value,
                         scaleY = pulsate.value
                     ),
-                tint = Color.Blue
+                tint = Color(0xfffaac02) // This remains solid
+            )
+            Icon(
+                painter = painterResource(R.drawable.cross),
+                contentDescription = "Cross",
+                modifier = Modifier
+                    .size(71.dp)
+                    .graphicsLayer {
+                        scaleX = pulsate.value
+                        scaleY = pulsate.value
+                        renderEffect = android.graphics.RenderEffect.createBlurEffect(
+                            25f, 25f, android.graphics.Shader.TileMode.DECAL
+                        ).asComposeRenderEffect()
+                        // Ανάμειξη χρωμάτων για να φαίνεται το εσωτερικό
+                        blendMode = androidx.compose.ui.graphics.BlendMode.Screen
+                    },
+                tint = Color(0xffffd270)
             )
         }
-
     } else {
         Box(
-            contentAlignment = Alignment.Center,
             modifier = Modifier
-                .fillMaxSize()
-//                .graphicsLayer { this.alpha = alpha.value } // Αποδοτική σχεδίαση
-                .background(Color.Black)
+                .fillMaxSize(),
+            contentAlignment = Alignment.Center
         ) {
+            Icon(
+                painter = painterResource(R.drawable.circle),
+                contentDescription = "Cross",
+                modifier = Modifier
+                    .size(65.dp)
+                    .graphicsLayer {
+                        scaleX = pulsate.value
+                        scaleY = pulsate.value
+                        // Create and apply a blur effect
+                        renderEffect = android.graphics.RenderEffect.createBlurEffect(
+                            25f, 25f, android.graphics.Shader.TileMode.DECAL
+                        ).asComposeRenderEffect()
+                    },
+                tint = Color(0xff70ffcf)
+            )
             Icon(
                 painter = painterResource(R.drawable.circle),
                 contentDescription = "Circle",
                 modifier = Modifier
-                    .size(64.dp)
+                    .size(65.dp)
                     .graphicsLayer(
                         scaleX = pulsate.value,
                         scaleY = pulsate.value
                     ),
-                tint = Color.Red
+                tint = Color(0xff02faa7) // This remains solid
             )
         }
     }

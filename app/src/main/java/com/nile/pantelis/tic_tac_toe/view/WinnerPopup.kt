@@ -6,22 +6,29 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.text.style.TextAlign
 
 @Composable
 fun WinnerPopup(
     onConfirmation: () -> Unit,
     dialogText: String,
-    onDismissRequest: () -> Unit
+    onDismissRequest: () -> Unit,
+    winState: Int
 ) {
+    var winText: String = ""
+    if (winState == 1 ) {
+        winText = dialogText
+    }
+    else if (winState == 2) {
+        winText = "It's a tie!"
+    }
     AlertDialog(
         title = {
             Text(text = "WINNER")
         },
         text = {
             Text(
-                text = dialogText,
+                text = winText,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth()
             )

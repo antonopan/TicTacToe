@@ -21,26 +21,30 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.nile.pantelis.tic_tac_toe.ui.theme.GridColor
 
 @Composable
 fun MainScreen(modifier: Modifier) {
     val viewModel: TileViewModel = viewModel()
     Column(
         modifier = Modifier.fillMaxSize().safeDrawingPadding(),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 10.dp),
+        Row(modifier = Modifier.fillMaxWidth()
+            .padding(horizontal = 20.dp)
+            .weight(0.05f),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Box(
                 modifier = Modifier
                     .weight(1f),
+                contentAlignment = Alignment.Center,
             ) {
                 Text(
                     viewModel.displayPlayerTurn,
                     fontSize = 32.sp,
                     modifier = Modifier.fillMaxWidth(),
-                    color = Color.Black
+                    color = Color.White
                 )
             }
             Box(
@@ -52,25 +56,27 @@ fun MainScreen(modifier: Modifier) {
                 Text(
                     text = "Restart",
                     fontSize = 16.sp,
-                    color = Color.Black
+                    color = Color.White
                 )
             }
         }
         Box(
             modifier = modifier.fillMaxSize()
+                .weight(1f)
         ) {
             Column {
                 FixedGrid(viewModel = viewModel)
             }
         }
     }
-    if (viewModel.won.value) {
+    if (viewModel.won.value != 3) {
         WinnerPopup(onConfirmation = {
             viewModel.clearTiles()
 //            viewModel.won = false
                                      },
             dialogText = viewModel.displayWinner,
-            onDismissRequest = {}
+            onDismissRequest = {},
+            winState = viewModel.won.value
         )
     }
 }
