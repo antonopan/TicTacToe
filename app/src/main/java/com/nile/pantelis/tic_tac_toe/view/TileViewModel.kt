@@ -5,8 +5,9 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import com.nile.pantelis.tic_tac_toe.domain.GameStates
 import com.nile.pantelis.tic_tac_toe.domain.TileStates
-import com.nile.pantelis.tic_tac_toe.gamerules.checkWinner
+import com.nile.pantelis.tic_tac_toe.gamelogic.checkWinner
 
 class TileViewModel : ViewModel() {
     private var _tileState = mutableStateListOf(
@@ -15,7 +16,7 @@ class TileViewModel : ViewModel() {
         TileStates.Blank, TileStates.Blank, TileStates.Blank
     )
     var playerState = mutableStateOf(true)
-    var won = mutableStateOf(3)
+    var won = mutableStateOf(GameStates.Play)
 
     var restart: Boolean by mutableStateOf(false)
 
@@ -45,16 +46,7 @@ class TileViewModel : ViewModel() {
 
             playerState.value = !playerState.value
 
-            checkWinner(_tileState)
+            won.value = checkWinner(_tileState)
         }
-    }
-
-
-
-    fun clearTiles() {
-        for (i in tileState.indices) {
-            tileState[i] = TileStates.Blank
-        }
-        won.value = 3
     }
 }

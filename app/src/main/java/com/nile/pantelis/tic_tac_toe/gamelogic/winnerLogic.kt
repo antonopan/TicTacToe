@@ -1,7 +1,5 @@
-package com.nile.pantelis.tic_tac_toe.gamerules
+package com.nile.pantelis.tic_tac_toe.gamelogic
 
-import android.app.GameState
-import androidx.compose.material3.TimePickerState
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import com.nile.pantelis.tic_tac_toe.domain.GameStates
 import com.nile.pantelis.tic_tac_toe.domain.TileStates
